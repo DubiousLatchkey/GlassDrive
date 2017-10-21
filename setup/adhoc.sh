@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#setup.sh - sets up the machine for GlassDrive
+#adhoc.sh - sets up an ad-hoc WiFi network
 #Copyright (C) 2017  Arc676/Alessandro Vinciguerra <alesvinciguerra@gmail.com>
 
 #This program is free software: you can redistribute it and/or modify
@@ -15,15 +15,14 @@
 #You should have received a copy of the GNU General Public License
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-EXIT_SUCCESS=0
-EXIT_NO_ROOT=1
-EXIT_BAD_ARGS=2
-EXIT_APT_FAILED=3
-
-if [ "$EUID" -ne 0 ]; then
-	echo 'Error: This script must be run with administrator privileges.'
-	exit $EXIT_NO_ROOT
+if [ $# -ne 1 ]; then
+	echo 'Error: must provide SSID suffix'
+	exit 1
 fi
 
-. ./deps.sh
-. ./adhoc.sh
+echo 'Creating ad-hoc network...'
+ifconfig wlan0 up
+iwconfig wlan0 key off
+iwconfig wlan0 mode ad-hoc
+iwconfig wlan0 essid "GlassDrive-$1"
+echo "Created ad-hoc network GlassDrive-$1"

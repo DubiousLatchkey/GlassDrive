@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#setup.sh - sets up the machine for GlassDrive
+#deps.sh - sets up the machine for GlassDrive
 #Copyright (C) 2017  Arc676/Alessandro Vinciguerra <alesvinciguerra@gmail.com>
 
 #This program is free software: you can redistribute it and/or modify
@@ -15,15 +15,19 @@
 #You should have received a copy of the GNU General Public License
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-EXIT_SUCCESS=0
-EXIT_NO_ROOT=1
-EXIT_BAD_ARGS=2
-EXIT_APT_FAILED=3
+function installDep {
+	echo "Installing $1..."
+	echo apt install $1
+	error=$?
+	if [ $error -eq 0 ]; then
+		echo 'Done'
+	else
+		echo "Failed to install $1. apt exited with error code: $error"
+		exit $EXIT_APT_FAILED
+	fi
+}
 
-if [ "$EUID" -ne 0 ]; then
-	echo 'Error: This script must be run with administrator privileges.'
-	exit $EXIT_NO_ROOT
-fi
-
-. ./deps.sh
-. ./adhoc.sh
+echo 'Installing dependencies...'
+installDep 'apache2'
+installDep 'vsftpd'
+echo 'Dependencies installed successfully.'
