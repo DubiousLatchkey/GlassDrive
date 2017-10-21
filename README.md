@@ -18,3 +18,10 @@ The true power of GlassDrive is the implications on the IoT.  Hosting this on a 
 * Arc676/Alessandro Vinciguerra
 * Robin Zhong
 * Matthew Chen
+
+## How to Use GlassDrive
+
+1. Copy the setup scripts onto the target device
+1. Run setup.sh to prepare the device
+1. On another device, connect to the created Wi-Fi network
+1. Go to 192.168.1.1 to access the hosted files
