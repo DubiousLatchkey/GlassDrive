@@ -14,7 +14,7 @@ The true power of GlassDrive is the implications on the IoT.  Hosting this on a 
 
 ## GlassDrive Contributors
 
-Owen Hu
-Arc676/Alessandro Vinciguerra
-Robin Zhong
-Matthew Chen
+*Owen Hu
+*Arc676/Alessandro Vinciguerra
+*Robin Zhong
+*Matthew Chen
