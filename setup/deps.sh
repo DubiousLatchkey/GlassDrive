@@ -30,5 +30,4 @@ function installDep {
 echo 'Installing dependencies...'
 installDep 'apache2'
 installDep 'vsftpd'
-installDep 'udhcpd'
 echo 'Dependencies installed successfully.'
