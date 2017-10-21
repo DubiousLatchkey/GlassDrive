@@ -25,10 +25,17 @@ else
 	echo 'Failed to restart DHCP'
 fi
 
+echo -n 'Enter name of networking service: '
+read networking
 echo 'Restarting networking service...'
-service networking restart
+service $networking restart
 if [ $? -eq 0 ]; then
 	echo 'Done'
 else
 	echo 'Failed to restart networking service'
 fi
+
+echo -n 'Enter wireless interface: '
+read wifi
+ifdown $wifi
+ifup $wifi
