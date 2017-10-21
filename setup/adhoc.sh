@@ -32,3 +32,11 @@ echo "Created ad-hoc network GlassDrive-$1"
 echo 'Setting IP address...'
 ifconfig wlan0 192.168.1.1 netmask 255.255.255.0
 echo 'IP address: 192.168.1.1'
+
+echo 'Copying udhcp configuration file...'
+cp -f ./udhcpd /etc/default
+
+echo 'Killing DHCP...'
+echo -n 'Enter name of DHCP service: '
+read dhcp
+service $dhcp stop

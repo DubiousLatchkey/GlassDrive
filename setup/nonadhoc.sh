@@ -15,6 +15,16 @@
 #You should have received a copy of the GNU General Public License
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+echo -n 'Enter name of dhcp service: '
+read dhcp
+echo 'Restarting DHCP...'
+service $dhcp restart
+if [ $? -eq 0 ]; then
+	echo 'Done'
+else
+	echo 'Failed to restart DHCP'
+fi
+
 echo 'Restarting networking service...'
 service networking restart
 if [ $? -eq 0 ]; then
