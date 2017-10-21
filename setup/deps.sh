@@ -17,7 +17,7 @@
 
 function installDep {
 	echo "Installing $1..."
-	echo apt install $1
+	apt install $1
 	error=$?
 	if [ $error -eq 0 ]; then
 		echo 'Done'
