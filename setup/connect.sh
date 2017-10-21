@@ -18,8 +18,9 @@
 echo -n 'Enter the SSID of the desired network: '
 read SSID
 
-echo 'How would you like to authenticate? (P)lain text or (f)ile?  [p/F]: '
+echo -n 'How would you like to authenticate? (P)lain text or (f)ile?  [p/F]: '
 read -n 1 choice
+echo
 if [ $choice == "p" ]; then
 	echo 'You have selected plain text mode. Note that this method may be less secure.'
 	echo -n 'Enter the password of the network: '
