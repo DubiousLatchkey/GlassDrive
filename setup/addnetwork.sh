@@ -36,3 +36,17 @@ fi
 unset password
 unset path
 unset ssid
+
+echo -n 'Enter name of DHCP service: '
+read dhcp
+service $dhcp restart
+echo -n 'Enter name of networking service: '
+read networking
+service $networking restart
+echo -n 'Enter wireless interface: '
+read wifi
+ifup $wifi
+
+unset dhcp
+unset wifi
+unset networking
