@@ -15,14 +15,20 @@
 #You should have received a copy of the GNU General Public License
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+echo 'Creating ad-hoc network...'
+
 if [ $# -ne 1 ]; then
 	echo 'Error: must provide SSID suffix'
 	exit 1
 fi
 
-echo 'Creating ad-hoc network...'
 ifconfig wlan0 up
 iwconfig wlan0 key off
 iwconfig wlan0 mode ad-hoc
 iwconfig wlan0 essid "GlassDrive-$1"
+
 echo "Created ad-hoc network GlassDrive-$1"
+
+echo 'Setting IP address...'
+ifconfig wlan0 192.168.1.1 netmask 255.255.255.0
+echo 'IP address: 192.168.1.1'

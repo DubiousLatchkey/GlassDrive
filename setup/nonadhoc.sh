@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#setup.sh - sets up the machine for GlassDrive
+#nonadhoc.sh - disable the ad-hoc network so the device can be reconnected to normal WiFi networks
 #Copyright (C) 2017  Arc676/Alessandro Vinciguerra <alesvinciguerra@gmail.com>
 
 #This program is free software: you can redistribute it and/or modify
@@ -15,15 +15,10 @@
 #You should have received a copy of the GNU General Public License
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-EXIT_SUCCESS=0
-EXIT_NO_ROOT=1
-EXIT_BAD_ARGS=2
-EXIT_APT_FAILED=3
-
-if [ "$EUID" -ne 0 ]; then
-	echo 'Error: This script must be run with administrator privileges.'
-	exit $EXIT_NO_ROOT
+echo 'Restarting networking service...'
+service networking restart
+if [ $? -eq 0 ]; then
+	echo 'Done'
+else
+	echo 'Failed to restart networking service'
 fi
-
-. ./deps.sh
-. ./adhoc.sh '1'
