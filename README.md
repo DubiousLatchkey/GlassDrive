@@ -11,7 +11,7 @@ Any device can connect to the network and upload and download the hosted files, 
 GlassDrive also allows for connections over Bluetooth for file transfers.
 The true power of GlassDrive is the implications on the IoT.  Hosting this on a mobile platform like a Raspberry Pi Zero allows for a local network of files to follow you anywhere you go.
 
-[link to GlassDrive Presentation](docs.google.com/presentation/d/1jmPqJWfpy4Vwv8mXC_9CL_Uz1jTh0oOiqBDCjhPL5H4/edit?usp=sharingm)
+[link to GlassDrive Presentation](https://www.docs.google.com/presentation/d/1jmPqJWfpy4Vwv8mXC_9CL_Uz1jTh0oOiqBDCjhPL5H4/edit?usp=sharingm)
 
 ## GlassDrive Contributors
 
