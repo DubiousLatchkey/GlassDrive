@@ -3,7 +3,7 @@ $username="";
 if(isset($_COOKIE["username"])){
   $username=$_COOKIE["username"];
 }else{
-  //header("Location: index.php");
+  header("Location: index.php");
 }
 ?>
 
@@ -100,7 +100,7 @@ function changenam(){
       </header>
       <div class="w3-container">
         <h4>Here you can...</h4>
-        <a class="w3-btn" href="javascript:testFunction();">Change your account name</a><br><br>
+        <a class="w3-btn" href="javascript:changenam();">Change your account name</a><br><br>
         <a class="w3-btn" href="Deleteacc.php?username="+"<?php echo $username; ?>">Delete this account     </a><br><br>
       </div>
       <footer class="w3-container w3-teal">
@@ -117,8 +117,8 @@ function changenam(){
 <div class="w3-row"><br>
 
 <div class="w3-quarter">
-  <img src="nothing.png" alt="Boss" style="width:45%" class="w3-circle w3-hover-opacity">
-  <h3>Not Detected</h3>
+  <a href="transfer.php"> <img src="detected.png" alt="Boss" style="width:45%" class="w3-circle w3-hover-opacity"> </a>
+  <h3>Detected: 190.168.1.1</h3>
 </div>
 
 <div class="w3-quarter">
