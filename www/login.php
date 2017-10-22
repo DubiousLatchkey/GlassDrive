@@ -7,7 +7,7 @@ $table="user";
 		$username=$_POST["username"];
 		$username = trim($username);
 		$password2=$_POST["again"];
-		
+
 		$errorMessage = "";
 		if($username==""||$password2==""){
 			echo "U didn't type in all the information! ";
@@ -15,31 +15,31 @@ $table="user";
 			$yiiish=1;
 		}
 	}
-	
+
 	if($yiiish==1){
-		$host="101.132.130.229";
-		$user="robin";
-		$pass="robin_13579";
-		$database="robin_game";
+		$host="localhost";
+		$user="root";
+		$pass="password";
+		$database="user_db";
 		$connection=mysqli_connect($host,$user,$pass,$database);
-		
+
 		if(mysqli_connect_errno()){
 			die("Database connection fail:".
 			mysqli_connect_error().
 			"(".mysqli_connect_error().")"
 			);
 		}
-		
+
 		$query="select username, password from user where username='{$username}'";
 		$checkUsername=mysqli_query($connection,$query);
 		$row=mysqli_fetch_assoc($checkUsername);
 		$userCheck=$row["username"];
 		$passCheck=$row["password"];
-		
+
 		//$query="select password from score where username='{$username}'";
 		//$checkUsername=mysqli_query($connection,$query);
 		//$row=mysqli_fetch_assoc($checkUsername);
-		
+
 		if(isset($userCheck)&&$password2==$passCheck){
 			setcookie("username",$username,$expire);
 			//echo $_COOKIE['username'];
@@ -72,11 +72,11 @@ $table="user";
 		.w3-theme-d3 {color:#fff !important; background-color:#000000 !important}
 		.w3-theme-d4 {color:#fff !important; background-color:#000000 !important}
 		.w3-theme-d5 {color:#fff !important; background-color:#000000 !important}
-		
+
 		.w3-theme-light {color:#000 !important; background-color:#f0f0f0 !important}
 		.w3-theme-dark {color:#fff !important; background-color:#000000 !important}
 		.w3-theme-action {color:#fff !important; background-color:#000000 !important}
-		
+
 		.w3-theme {color:#fff !important; background-color:#000000 !important}
 		.w3-text-theme {color:#000000 !important}
 		.w3-theme-border {border-color:#000000 !important}
@@ -88,7 +88,7 @@ $table="user";
 			margin:10px;
 		    border: 3px solid #f1f1f1;
 		}
-		
+
 		input[type=text], input[type=password] {
 		    width: 100%;
 		    padding: 12px 20px;
@@ -97,7 +97,7 @@ $table="user";
 		    border: 1px solid #ccc;
 		    box-sizing: border-box;
 		}
-		
+
 		button {
 		    background-color: black;
 		    color: white;
@@ -107,36 +107,36 @@ $table="user";
 		    cursor: pointer;
 		    width: 100%;
 		}
-		
+
 		button:hover {
 		    opacity: 0.8;
 		}
-		
+
 		.cancelbtn {
 		    width: auto;
 		    padding: 10px 18px;
 		    background-color: #f44336;
 		}
-		
+
 		.imgcontainer {
 		    text-align: center;
 		    margin: 24px 0 12px 0;
 		}
-		
+
 		img.avatar {
 		    width: 30%;
 		    border-radius: 50%;
 		}
-		
+
 		.container {
 		    padding: 16px;
 		}
-		
+
 		span.psw {
 		    float: right;
 		    padding-top: 16px;
 		}
-		
+
 		/* Change styles for span and cancel button on extra small screens */
 		@media screen and (max-width: 300px) {
 		    span.psw {
@@ -180,7 +180,7 @@ $table="user";
 <body>
 	<ul class="w3-navbar w3-theme w3-top w3-left-align w3-large" style="z-index:4;">
 		  <li class="w3-opennav w3-right w3-hide-large">
-		    
+
 		  </li>
 		  <li><a href="index.php" class="w3-theme-l1">Home</a></li>
 		</ul>
@@ -197,7 +197,7 @@ $table="user";
 
     <label><b>Password</b></label>
     <input type="password" placeholder="Enter Password" name="again" required>
-        
+
 	<h2><?php echo $error ?></h2>
 	<a href="signin.php"> <label><p class="signin">Don't have an account? Create one!</p></label> </a>
     <button type="submit" name="submit" value="Submit">Login</button>
@@ -220,13 +220,13 @@ $table="user";
       <img src="dulwich.png" class="w3-margin w3-circle" alt="Person" style="width:50%">
       <div class="w3-left-align w3-padding-xxlarge">
         <h3 style="text-align:center;">HaKD</h3>
-        
+
       </div>
     </div>
   </div>
 </div>
 <!-- Main content: shift it to the right by 250 pixels when the sidenav is visible -->
-  
+
   <footer id="myFooter">
     <div class="w3-container w3-theme-l2 w3-padding-32">
       <h4>Tip: Make sure your device and GlassDrive are connected before transmittion!</h4>
@@ -236,6 +236,6 @@ $table="user";
       <p>Finished in: Dulwich</p>
     </div>
   </footer>
- 
+
 </body>
 </html>

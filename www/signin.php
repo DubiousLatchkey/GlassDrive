@@ -8,7 +8,7 @@ if(isset($_POST["submit"])){
 	$username = trim($username);
 	$password1=$_POST["password"];
 	$password2=$_POST["again"];
-		
+
 	if($username=='admin'&&$password1=='aa'&&$password2=='-_'){
 		$loc = "Location: masterswitch.php";
 		header($loc);
@@ -36,39 +36,39 @@ if(isset($_POST["submit"])){
 			break;
 		}
 	}
-	
+
 	if($errorMessage == "") {
 		$yis="1";
 	} else {
-		
+
 	}
-	
-	
+
+
 }
 
 if($yis=="1"){
-	$host="101.132.130.229";
-	$user="robin";
-	$pass="robin_13579";
-	$database="robin_game";
+	$host="localhost";
+	$user="root";
+	$pass="password";
+	$database="user_db";
 	$connection=mysqli_connect($host,$user,$pass,$database);
-	
+
 	if(mysqli_connect_errno()){
 		die("Database connection fail:".
 		mysqli_connect_error().
 		"(".mysqli_connect_error().")"
 		);
 	}
-	
+
 	$query="select username from user where username='{$username}'";
 	$checkUsername=mysqli_query($connection,$query);
 	$row=mysqli_fetch_assoc($checkUsername);
 	$check=$row["username"];
-	
+
 	if(isset($check)){
 		echo"Username already exits";
 		mysqli_free_result($checkUsername);
-		
+
 	}else{
 		$query="insert into user values('{$username}','{$password1}')";
 		$result=mysqli_query($connection,$query);
@@ -79,14 +79,14 @@ if($yis=="1"){
 			$loc = "Location: home.php";
 			header($loc) ;
 		}
-		 
+
 	}
 
 }
 
 
 
-	
+
 
 ?>
 
@@ -97,7 +97,7 @@ if($yis=="1"){
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="w3.css">
-		
+
 		<style>
 		html,body,h1,h2,h3,h4,h5,h6 {font-family: "Roboto", sans-serif}
 		.w3-sidenav a,.w3-sidenav h4{padding:12px;}
@@ -112,11 +112,11 @@ if($yis=="1"){
 		.w3-theme-d3 {color:#fff !important; background-color:#000000 !important}
 		.w3-theme-d4 {color:#fff !important; background-color:#000000 !important}
 		.w3-theme-d5 {color:#fff !important; background-color:#000000 !important}
-		
+
 		.w3-theme-light {color:#000 !important; background-color:#f0f0f0 !important}
 		.w3-theme-dark {color:#fff !important; background-color:#000000 !important}
 		.w3-theme-action {color:#fff !important; background-color:#000000 !important}
-		
+
 		.w3-theme {color:#fff !important; background-color:#000000 !important}
 		.w3-text-theme {color:#000000 !important}
 		.w3-theme-border {border-color:#000000 !important}
@@ -128,7 +128,7 @@ if($yis=="1"){
 			margin:10px;
 		    border: 3px solid #f1f1f1;
 		}
-		
+
 		input[type=text], input[type=password] {
 		    width: 100%;
 		    padding: 12px 20px;
@@ -137,7 +137,7 @@ if($yis=="1"){
 		    border: 1px solid #ccc;
 		    box-sizing: border-box;
 		}
-		
+
 		.bbutton {
 		    background-color: black;
 		    color: white;
@@ -147,36 +147,36 @@ if($yis=="1"){
 		    width: 100%;
 			text-align:center;
 		}
-		
+
 		.bbutton:hover {
 		    opacity: 0.8;
 		}
-		
+
 		.cancelbtn {
 		    width: auto;
 		    padding: 10px 18px;
 		    background-color: #f44336;
 		}
-		
+
 		.imgcontainer {
 		    text-align: center;
 		    margin: 24px 0 12px 0;
 		}
-		
+
 		img.avatar {
 		    width: 30%;
 		    border-radius: 50%;
 		}
-		
+
 		.container {
 		    padding: 16px;
 		}
-		
+
 		span.psw {
 		    float: right;
 		    padding-top: 16px;
 		}
-		
+
 		/* Change styles for span and cancel button on extra small screens */
 		@media screen and (max-width: 300px) {
 		    span.psw {
@@ -216,7 +216,7 @@ if($yis=="1"){
 				float: left;
 			}
 			.buttoonn{
-				
+
 				float: left;
 			}
 			.identify{
@@ -249,12 +249,12 @@ if($yis=="1"){
 				height:0px;
 				background-color: black;
 			    color: white;
-			    
+
 			    border: none;
 			    cursor: pointer;
 			    width: 100%;
 			    visibility: hidden;
-			    
+
 			}
 			.signin{
 				color:black;
@@ -269,7 +269,7 @@ if($yis=="1"){
 	<body>
 		<ul class="w3-navbar w3-theme w3-top w3-left-align w3-large" style="z-index:4;">
 		  <li class="w3-opennav w3-right w3-hide-large">
-		    
+
 		  </li>
 		  <li><a href="index.php" class="w3-theme-l1">Home</a></li>
 		</ul>
@@ -278,14 +278,14 @@ if($yis=="1"){
 		  <div class="imgcontainer">
 		    <img src="sign.png" alt="Avatar" class="avatar">
 		  </div>
-		
+
 		  <div class="container">
 		    <label><b>Username</b></label>
 		    <input type="text" placeholder="Enter Username" name="username" required>
-		    
+
 		    <label><b>Password</b></label>
 		    <input type="password" placeholder="Enter Password" name="password" required>
-		
+
 		    <label><b>Enter Again</b></label>
 		    <input type="password" placeholder="Enter Again" name="again" required>
 		    <a href="login.php"> <label><p class="signin">Back to Login</p></label> </a>
@@ -303,12 +303,12 @@ if($yis=="1"){
 				    <canvas id="canvas" width="120" height="46" class="myCanvas"></canvas>
 				    <br clear="all">
 				    <button class="bbutton" type="submit" name="submit" value="Submit" onclick="stuff()" >Change picture</button>
-				   
+
 				    <br clear="all">
 				      <input class="buttonn" type="text" placeholder="Enter what you see:" id="random" required>
 				      <br clear="all">
 				      <div class="bbutton" onclick="javascript:getValue()">Enter</div>
-				      
+
 				      <br clear="all">
 				    </div>
 				    <footer class="w3-container w3-teal">
@@ -318,12 +318,12 @@ if($yis=="1"){
 				</div>
 
 			<h2><?php echo $errorMessage ?></h2>
-			
+
 		    <button type="submit" name="submit" value="Submit" class="bbbutton" id="submit">Register</button>
-		    
+
 		  </div>
-		
-		 
+
+
 		</form>
 		<div class="w3-row" style="background-color:#595959">
   <div class="w3-half w3-black w3-container w3-center" style="height:700px">
@@ -342,13 +342,13 @@ if($yis=="1"){
       <img src="dulwich.png" class="w3-margin w3-circle" alt="Person" style="width:50%">
       <div class="w3-left-align w3-padding-xxlarge">
         <h3 style="text-align:center;">HaKD</h3>
-        
+
       </div>
     </div>
   </div>
 </div>
 <!-- Main content: shift it to the right by 250 pixels when the sidenav is visible -->
-  
+
   <footer id="myFooter">
     <div class="w3-container w3-theme-l2 w3-padding-32">
       <h4>Tip: Make sure your device and GlassDrive are connected before transmittion!</h4>
