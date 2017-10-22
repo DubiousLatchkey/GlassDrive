@@ -182,7 +182,7 @@ $table="user";
 		  <li class="w3-opennav w3-right w3-hide-large">
 		    
 		  </li>
-		  <li><a href="index.html" class="w3-theme-l1">Home</a></li>
+		  <li><a href="index.php" class="w3-theme-l1">Home</a></li>
 		</ul>
 	<h1>Login</h1>
 
