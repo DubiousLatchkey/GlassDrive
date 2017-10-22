@@ -25,8 +25,12 @@ if [ "$EUID" -ne 0 ]; then
 	exit $EXIT_NO_ROOT
 fi
 
-#. ./deps.sh
+. ./deps.sh
 
 GlassDrivePath=$(dirname $(readlink -f $0))
 echo $GlassDrivePath
-#. ./adhoc.sh $(./serial.sh)
+cp /etc/rc.local rc.local.old
+sed -e "s/exit.*/$GlassDrivePath\/checknetwork.sh/" /etc/rc.local > rc.local.new
+mv /etc/rc.local.new /etc/rc.local
+
+. ./adhoc.sh $(./serial.sh)

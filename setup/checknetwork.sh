@@ -15,4 +15,5 @@
 #You should have received a copy of the GNU General Public License
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-/home/pi/GlassDrive/setup/adhoc.sh 12
+GlassDriveSetupPath=$(dirname $(readline -f $0))
+$GlassDriveSetupPath/adhoc.sh $($GlassDriveSetupPath/serial.sh)
