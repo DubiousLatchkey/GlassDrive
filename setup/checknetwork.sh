@@ -15,5 +15,5 @@
 #You should have received a copy of the GNU General Public License
 #along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-GlassDriveSetupPath=$(dirname $(readline -f $0))
+GlassDriveSetupPath=$(dirname $(readlink -f $0))
 $GlassDriveSetupPath/adhoc.sh $($GlassDriveSetupPath/serial.sh)
