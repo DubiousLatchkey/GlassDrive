@@ -27,7 +27,17 @@ function installDep {
 	fi
 }
 
+echo 'Updating repository...'
+apt-get update
+
 echo 'Installing dependencies...'
+
 installDep 'apache2'
+cp /etc/php5/apache2/php.ini ./php.ini.old
+cp ./php.ini /etc/php/apache2.ini
+
 installDep 'vsftpd'
+cp /etc/vsftpd.conf ./vsftpd.conf.old
+cp ./vsftpd.conf /etc/vsftpd.conf
+
 echo 'Dependencies installed successfully.'

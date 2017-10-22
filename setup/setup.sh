@@ -30,7 +30,8 @@ fi
 GlassDrivePath=$(dirname $(readlink -f $0))
 echo $GlassDrivePath
 cp /etc/rc.local rc.local.old
-sed -e "s/exit.*/$GlassDrivePath\/checknetwork.sh/" /etc/rc.local > rc.local.new
-mv /etc/rc.local.new /etc/rc.local
+sed -E -e 's/exit.*//' /etc/rc.local > rc.local.new
+echo $GlassDrivePath'/checknetwork.sh' >> rc.local.new
+mv rc.local.new /etc/rc.local
 
 . ./adhoc.sh $(./serial.sh)
