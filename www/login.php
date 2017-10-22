@@ -17,10 +17,10 @@ $table="user";
 	}
 	
 	if($yiiish==1){
-		$host="localhost";
+		$host="101.132.130.229";
 		$user="robin";
-		$pass="172/16.3_170";
-		$database="Robin_Game";
+		$pass="robin_13579";
+		$database="robin_game";
 		$connection=mysqli_connect($host,$user,$pass,$database);
 		
 		if(mysqli_connect_errno()){
@@ -30,7 +30,7 @@ $table="user";
 			);
 		}
 		
-		$query="select username, password from '{$table}' where username='{$username}'";
+		$query="select username, password from user where username='{$username}'";
 		$checkUsername=mysqli_query($connection,$query);
 		$row=mysqli_fetch_assoc($checkUsername);
 		$userCheck=$row["username"];
@@ -54,7 +54,7 @@ $table="user";
 <html lang="en">
 	<head>
 		<title> Log In </title>
-		<link rel="stylesheet" href="font-awesome.min.css">
+		<!--<link rel="stylesheet" href="font-awesome.min.css">-->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="w3.css">

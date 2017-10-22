@@ -100,7 +100,7 @@ function changenam(){
       </header>
       <div class="w3-container">
         <h4>Here you can...</h4>
-        <a class="w3-btn" href="javascript:testFunction();">Change your account name</a><br><br>
+        <a class="w3-btn" href="javascript:changenam();">Change your account name</a><br><br>
         <a class="w3-btn" href="Deleteacc.php?username="+"<?php echo $username; ?>">Delete this account     </a><br><br>
       </div>
       <footer class="w3-container w3-teal">
@@ -117,7 +117,7 @@ function changenam(){
 <div class="w3-row"><br>
 
 <div class="w3-quarter">
-  <img src="nothing.png" alt="Boss" style="width:45%" class="w3-circle w3-hover-opacity">
+  <a href="ftp://192.168.1.1"> <img src="nothing.png" alt="Boss" style="width:45%" class="w3-circle w3-hover-opacity"> </a>
   <h3>Not Detected</h3>
 </div>
 
