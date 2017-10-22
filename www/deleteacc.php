@@ -1,9 +1,9 @@
 <?php
 $username=$_GET['username'];
-$host="localhost";
+$host="101.132.130.229";
 $user="robin";
-$pass="172/16.3_170";
-$database="Robin_Game";
+$pass="robin_13579";
+$database="robin_game";
 $connection=mysqli_connect($host,$user,$pass,$database);
 	
 if(mysqli_connect_errno()){
@@ -15,5 +15,9 @@ if(mysqli_connect_errno()){
 	
 $query="delete from user where username = '{$username}'";
 $checkUsername=mysqli_query($connection,$query);
+setcookie("username", null);
+
+$loc = "Location: home.php";
+header($loc);
 
 ?>

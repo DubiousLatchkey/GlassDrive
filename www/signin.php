@@ -47,10 +47,10 @@ if(isset($_POST["submit"])){
 }
 
 if($yis=="1"){
-	$host="localhost";
+	$host="101.132.130.229";
 	$user="robin";
-	$pass="172/16.3_170";
-	$database="Robin_Game";
+	$pass="robin_13579";
+	$database="robin_game";
 	$connection=mysqli_connect($host,$user,$pass,$database);
 	
 	if(mysqli_connect_errno()){
@@ -70,7 +70,7 @@ if($yis=="1"){
 		mysqli_free_result($checkUsername);
 		
 	}else{
-		$query="insert into user values('{$username}','{$password1}',0)";
+		$query="insert into user values('{$username}','{$password1}')";
 		$result=mysqli_query($connection,$query);
 		if(!$result){
 			die("Third database query failed.");
@@ -93,7 +93,7 @@ if($yis=="1"){
 <html>
 	<head>
 		<title> Create new Acounts </title>
-		<link rel="stylesheet" href="font-awesome.min.css">
+		<!--<link rel="stylesheet" href="font-awesome.min.css">-->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="w3.css">
@@ -274,7 +274,7 @@ if($yis=="1"){
 		  <li><a href="index.php" class="w3-theme-l1">Home</a></li>
 		</ul>
 		<h1>Create new accounts</h1>
-		<form action="signup.php" method="post">
+		<form action="signin.php" method="post">
 		  <div class="imgcontainer">
 		    <img src="sign.png" alt="Avatar" class="avatar">
 		  </div>
