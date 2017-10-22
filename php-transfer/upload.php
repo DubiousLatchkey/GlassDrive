@@ -1,7 +1,7 @@
 <?php
   if (sizeof($_FILES["fileToUpload"]["name"]) > 1){
     for($i = 0; $i < sizeof($_FILES["fileToUpload"]["name"]); $i++){
-      $target_dir = "uploads/";
+      $target_dir = "/srv/ftp/public/";
       $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"][$i]);
       $uploadOk = 1;
       if (file_exists($target_file) && !isset($_POST["checkBox"])){
