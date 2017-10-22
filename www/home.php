@@ -3,7 +3,7 @@ $username="";
 if(isset($_COOKIE["username"])){
   $username=$_COOKIE["username"];
 }else{
-  //header("Location: index.php");
+  header("Location: index.php");
 }
 ?>
 
@@ -117,8 +117,8 @@ function changenam(){
 <div class="w3-row"><br>
 
 <div class="w3-quarter">
-  <a href="ftp://192.168.1.1"> <img src="nothing.png" alt="Boss" style="width:45%" class="w3-circle w3-hover-opacity"> </a>
-  <h3>Not Detected</h3>
+  <a href="transfer.php"> <img src="detected.png" alt="Boss" style="width:45%" class="w3-circle w3-hover-opacity"> </a>
+  <h3>Detected: 190.168.1.1</h3>
 </div>
 
 <div class="w3-quarter">
