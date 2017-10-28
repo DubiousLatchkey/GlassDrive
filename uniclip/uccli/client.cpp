@@ -1,3 +1,4 @@
+#include <iostream>
 #include "uniclipclient.h"
 
 int main(int argc, char * argv[]) {
