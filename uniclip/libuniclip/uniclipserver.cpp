@@ -18,33 +18,24 @@
 #include "uniclipserver.h"
 
 void UniClipServer::run() {
+	file.open("uniclip", std::ios::app);
 	if (status != SUCCESS) {
-		std::cout << "Failed to set up sockets\n";
+		std::cout << "Failed to set up sockets: " << ExitCodes::errToString(status) << "\n";
 		return;
 	}
+	std::string input;
 	while (1) {
-		std::string input;
-		cin >> input;
+		std::cin >> input;
 		if (input == "exit") {
 			break;
 		}
 	}
+	file.close();
 	closeServer();
 }
 
-void UniClipServer::handleMessage(const std::string &msg) {
-	std::ofstream file;
-	file.open("uniclip", ios::app);
-	file << msg << "\n\n";
-	file.close();
-}
-
-int main(int argc, char * argv[]) {
-	if (argc != 2) {
-		std::cerr << "Must provide port\n";
-		return 1;
+void UniClipServer::handleMessage(const std::string &msg, int type) {
+	if (type == MESSAGE) {
+		file << msg << "\n\n";
 	}
-	int port = (int)strtol(argv[1], (char**)NULL, 10);
-	new UniClipServer(port)->run();
-	return 0;
 }

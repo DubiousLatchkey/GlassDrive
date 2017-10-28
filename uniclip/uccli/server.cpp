@@ -15,21 +15,15 @@
 //along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //See LICENSE for full GPL text.
 
-#ifndef UNICLIPSERVER_H
-#define UNICLIPSERVER_H
+#include "uniclipserver.h"
 
-#include <iostream>
-#include <string>
-#include <fstream>
-
-#include "socktalkserver.h"
-
-class UniClipServer : public SockTalkServer {
-	std::ofstream file;
-    public:
-	using SockTalkServer::SockTalkServer;
-	void run();
-	virtual void handleMessage(const std::string&, int);
-};
-
-#endif
+int main(int argc, char * argv[]) {
+	if (argc != 2) {
+		std::cerr << "Must provide port\n";
+		return 1;
+	}
+	int port = (int)strtol(argv[1], (char**)NULL, 10);
+	UniClipServer* serv = new UniClipServer(port);
+	serv->run();
+	return 0;
+}

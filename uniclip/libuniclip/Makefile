@@ -1,12 +1,14 @@
 CC=g++
-FLAGS=-I ../libsocktalk -L ../libsocktalk -std=c++11 -c
-LIB=-l socktalk
+FLAGS=-I ../libsocktalk -std=c++11 -c
 
 clean:
 	rm *.a *.o
 
-lib: uniclipserver.o
+lib: uniclipserver.o uniclipclient.o
 	ar rcs libuniclip.a *.o
 
 uniclipserver.o:
-	$(CC) $(FLAGS) uniclipserver.cpp $(LIB) -o uniclipserver
+	$(CC) $(FLAGS) uniclipserver.cpp
+
+uniclipclient.o:
+	$(CC) $(FLAGS) uniclipclient.cpp

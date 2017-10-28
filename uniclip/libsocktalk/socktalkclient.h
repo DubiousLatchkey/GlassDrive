@@ -43,10 +43,11 @@ class SockTalkClient : public MessageHandler {
 
 	int status = SUCCESS;
 
-	void closeClient();
+	int send(const std::string&);
     public:
+	void closeClient();
 	SockTalkClient(int, const std::string&, const std::string&);
-	virtual void run() = 0;
+	int getStatus();
 };
 
 #endif
