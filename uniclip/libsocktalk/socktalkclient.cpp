@@ -145,34 +145,66 @@
  * [including the GNU Public Licence.]
  */
 
-#ifndef MESSAGEHANDLER_H
-#define MESSAGEHANDLER_H
+#include "socktalkclient.h"
 
-#include <string>
+SockTalkClient::SockTalkClient(int port, const std::string &host, const std::string &username, const std::string &cert, const std::string &key) :
+	username(username) {
+	if (username == "server" || username == "global"){
+		status = NO_RESERVED_NAMES;
+		return;
+	}
+	status = InitializeSSL(cert, key, 0);
+	if (status != SUCCESS) {
+		return;
+	}
+	sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+	if (sock < 0){
+		status = CREATE_SOCKET_FAILED;
+		return;
+	}
 
-#ifndef OPENSSL
-#define OPENSSL
+	sockaddr_in hostaddr;
+	hostaddr.sin_family = AF_INET;
+	hostaddr.sin_port = htons(port);
+	hostaddr.sin_addr.s_addr = inet_addr(host.c_str());
 
-#include <openssl/ssl.h>
-#include <openssl/bio.h>
-#include <openssl/err.h>
+	if (connect(sock, (sockaddr*)&hostaddr, sizeof(hostaddr)) < 0){
+		status = FAILED_TO_CONNECT;
+		return;
+	}
 
-#endif
+	ssl = SSL_new(sslctx);
+	SSL_set_fd(ssl, sock);
+	if (SSL_connect(ssl) <= 0) {
+		ERR_print_errors_fp(stderr);
+		status = SSL_CONNECT_FAILED;
+		ShutdownSSL(ssl);
+		return;
+	}
+	SSL_write(ssl, username.c_str(), username.length());
+	char registration[2];
+	int bytes = SSL_read(ssl, registration, 1);
+	registration[bytes] = '\0';
+	if (registration[0] == 'N'){
+		status = REGISTRATION_FAILED;
+		close(sock);
+		return;
+	}
 
-#define INFO 0
-#define MESSAGE 1
-#define ERROR 2
+	msgThread = new MsgThread(username, ssl, this);
+}
 
-#include "exitcodes.h"
+void SockTalkClient::closeClient() {
+	msgThread->running = 0;
+	close(sock);
+	ShutdownSSL(ssl);
+	DestroySSL();
+}
 
-class MessageHandler {
-    protected:
-	SSL_CTX* sslctx;
-	int InitializeSSL(const std::string&, const std::string&, int);
-	void DestroySSL();
-    public:
-	virtual void handleMessage(const std::string&, int) = 0;
-	void ShutdownSSL(SSL*);
-};
+int SockTalkClient::send(const std::string &message) {
+	return SSL_write(ssl, message.c_str(), message.length());
+}
 
-#endif
+int SockTalkClient::getStatus() {
+	return status;
+}

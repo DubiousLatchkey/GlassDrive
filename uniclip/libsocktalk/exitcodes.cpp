@@ -145,34 +145,33 @@
  * [including the GNU Public Licence.]
  */
 
-#ifndef MESSAGEHANDLER_H
-#define MESSAGEHANDLER_H
-
-#include <string>
-
-#ifndef OPENSSL
-#define OPENSSL
-
-#include <openssl/ssl.h>
-#include <openssl/bio.h>
-#include <openssl/err.h>
-
-#endif
-
-#define INFO 0
-#define MESSAGE 1
-#define ERROR 2
-
 #include "exitcodes.h"
 
-class MessageHandler {
-    protected:
-	SSL_CTX* sslctx;
-	int InitializeSSL(const std::string&, const std::string&, int);
-	void DestroySSL();
-    public:
-	virtual void handleMessage(const std::string&, int) = 0;
-	void ShutdownSSL(SSL*);
-};
-
-#endif
+std::string ExitCodes::errToString(int err) {
+	switch (err){
+	case SUCCESS:
+		return "Success";
+	case CREATE_SOCKET_FAILED:
+		return "Failed to create socket";
+	case BIND_SOCKET_FAILED:
+		return "Failed to bind socket";
+	case LISTEN_SOCKET_FAILED:
+		return "Failed to listen on socket";
+	case NO_RESERVED_NAMES:
+		return "Reserved names cannot be used as usernames";
+	case FAILED_TO_CONNECT:
+		return "Failed to connect to host";
+	case FAILED_TO_GET_CERTIFICATE:
+		return "Failed to get SSL certificate";
+	case FAILED_TO_GET_PRIVATE_KEY:
+		return "Failed to get private key from certificate";
+	case SSL_ACCEPT_FAILED:
+		return "Failed to accept socket via SSL";
+	case SSL_CONNECT_FAILED:
+		return "Failed to connect socket via SSL";
+	case REGISTRATION_FAILED:
+		return "Registration with server failed; username is probably taken";
+	default:
+		return "Unknown error";
+	}
+}

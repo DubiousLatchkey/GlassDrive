@@ -145,34 +145,36 @@
  * [including the GNU Public Licence.]
  */
 
-#ifndef MESSAGEHANDLER_H
-#define MESSAGEHANDLER_H
+#include "socktalkclienthandler.h"
+#include "socktalkserver.h"
 
-#include <string>
+SockTalkClientHandler::SockTalkClientHandler(int socket, SSL* ssl, SockTalkServer* server) : sock(socket), ssl(ssl) {
+	char user[256];
+	int bytes = SSL_read(ssl, user, 255);
+	user[bytes] = '\0';
+	username = std::string(user);
+	if (server->usernameTaken(username)){
+		SSL_write(ssl, "N", 1);
+	}else{
+		SSL_write(ssl, "K", 1);
+		msgThread = new MsgThread(username, ssl, server);
+	}
+}
 
-#ifndef OPENSSL
-#define OPENSSL
+void SockTalkClientHandler::send(const std::string &msg){
+	SSL_write(ssl, msg.c_str(), msg.length());
+}
 
-#include <openssl/ssl.h>
-#include <openssl/bio.h>
-#include <openssl/err.h>
+void SockTalkClientHandler::stop(){
+	if (msgThread != nullpointer){
+		msgThread->running = 0;
+	}
+	close(sock);
+}
 
-#endif
-
-#define INFO 0
-#define MESSAGE 1
-#define ERROR 2
-
-#include "exitcodes.h"
-
-class MessageHandler {
-    protected:
-	SSL_CTX* sslctx;
-	int InitializeSSL(const std::string&, const std::string&, int);
-	void DestroySSL();
-    public:
-	virtual void handleMessage(const std::string&, int) = 0;
-	void ShutdownSSL(SSL*);
-};
-
-#endif
+int SockTalkClientHandler::isRunning(){
+	if (msgThread == nullpointer){
+		return 0;
+	}
+	return msgThread->running;
+}

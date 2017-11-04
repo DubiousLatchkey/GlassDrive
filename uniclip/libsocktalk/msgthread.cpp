@@ -145,34 +145,29 @@
  * [including the GNU Public Licence.]
  */
 
-#ifndef MESSAGEHANDLER_H
-#define MESSAGEHANDLER_H
+#include "msgthread.h"
 
-#include <string>
+#define BUF_SIZE 2048
 
-#ifndef OPENSSL
-#define OPENSSL
+void run(MsgThread* msgThread) {
+	char buffer[BUF_SIZE];
+	while (msgThread->running) {
+		int bytes = SSL_read(msgThread->socket, buffer, BUF_SIZE - 1);
+		if (bytes < 0) {
+			msgThread->msgHandler->handleMessage("Failed to read", ERROR);
+			msgThread->running = 0;
+		} else if (bytes == 0) {
+			msgThread->msgHandler->handleMessage(msgThread->username + " disconnected", INFO);
+			msgThread->running = 0;
+		} else {
+			buffer[bytes] = '\0';
+			std::string str(buffer);
+			msgThread->msgHandler->handleMessage(str, MESSAGE);
+		}
+		memset(buffer, 0, BUF_SIZE);
+	}
+}
 
-#include <openssl/ssl.h>
-#include <openssl/bio.h>
-#include <openssl/err.h>
-
-#endif
-
-#define INFO 0
-#define MESSAGE 1
-#define ERROR 2
-
-#include "exitcodes.h"
-
-class MessageHandler {
-    protected:
-	SSL_CTX* sslctx;
-	int InitializeSSL(const std::string&, const std::string&, int);
-	void DestroySSL();
-    public:
-	virtual void handleMessage(const std::string&, int) = 0;
-	void ShutdownSSL(SSL*);
-};
-
-#endif
+MsgThread::MsgThread(const std::string &username, SSL* socket, MessageHandler* msgHandler) :
+	username(username), socket(socket), msgHandler(msgHandler), running(1),
+	msgThread(run, this) {}

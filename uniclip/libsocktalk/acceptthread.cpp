@@ -145,34 +145,35 @@
  * [including the GNU Public Licence.]
  */
 
-#ifndef MESSAGEHANDLER_H
-#define MESSAGEHANDLER_H
+#include "acceptthread.h"
+#include "socktalkserver.h"
+#include "socktalkclienthandler.h"
 
-#include <string>
+void AcceptThread::run(AcceptThread* accThread) {
+	while (accThread->running) {
+		int clientSock = accept(accThread->serverSock, (sockaddr*)NULL, (socklen_t*)NULL);
+		if (clientSock < 0) {
+			accThread->server->handleMessage("Failed to accept", ERROR);
+			accThread->running = 0;
+		} else {
+			SSL *cSSL = SSL_new(accThread->sslctx);
+			SSL_set_fd(cSSL, clientSock);
+			int err = SSL_accept(cSSL);
+			if (err <= 0) {
+				accThread->server->handleMessage("Failed to accept with SSL", ERROR);
+				accThread->running = 0;
+				accThread->server->ShutdownSSL(cSSL);
+				return;
+			}
+			SockTalkClientHandler* ch = new SockTalkClientHandler(clientSock, cSSL, accThread->server);
+			if (ch->isRunning()) {
+				accThread->server->addHandler(ch);
+			} else {
+				delete ch;
+			}
+		}
+	}
+}
 
-#ifndef OPENSSL
-#define OPENSSL
-
-#include <openssl/ssl.h>
-#include <openssl/bio.h>
-#include <openssl/err.h>
-
-#endif
-
-#define INFO 0
-#define MESSAGE 1
-#define ERROR 2
-
-#include "exitcodes.h"
-
-class MessageHandler {
-    protected:
-	SSL_CTX* sslctx;
-	int InitializeSSL(const std::string&, const std::string&, int);
-	void DestroySSL();
-    public:
-	virtual void handleMessage(const std::string&, int) = 0;
-	void ShutdownSSL(SSL*);
-};
-
-#endif
+AcceptThread::AcceptThread(SockTalkServer* server, int sock, SSL_CTX* sslctx) :
+	serverSock(sock), server(server), sslctx(sslctx), running(1), accThread(&AcceptThread::run, this) {}

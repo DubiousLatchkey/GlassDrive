@@ -145,34 +145,34 @@
  * [including the GNU Public Licence.]
  */
 
-#ifndef MESSAGEHANDLER_H
-#define MESSAGEHANDLER_H
+#include "messagehandler.h"
 
-#include <string>
+int MessageHandler::InitializeSSL(const std::string &cert, const std::string &priv, int isServer) {
+	SSL_load_error_strings();
+	SSL_library_init();
+	OpenSSL_add_all_algorithms();
+	if (isServer) {
+		sslctx = SSL_CTX_new(SSLv23_server_method());
+	} else {
+		sslctx = SSL_CTX_new(SSLv23_client_method());
+	}
+	SSL_CTX_set_options(sslctx, SSL_OP_SINGLE_DH_USE);
+	if (SSL_CTX_use_certificate_file(sslctx, cert.c_str(), SSL_FILETYPE_PEM) != 1) {
+		return FAILED_TO_GET_CERTIFICATE;
+	}
+	if (SSL_CTX_use_PrivateKey_file(sslctx, priv.c_str(), SSL_FILETYPE_PEM) != 1) {
+		return FAILED_TO_GET_PRIVATE_KEY;;
+	}
+	return SUCCESS;
+}
 
-#ifndef OPENSSL
-#define OPENSSL
+void MessageHandler::DestroySSL() {
+	ERR_free_strings();
+	EVP_cleanup();
+	SSL_CTX_free(sslctx);
+}
 
-#include <openssl/ssl.h>
-#include <openssl/bio.h>
-#include <openssl/err.h>
-
-#endif
-
-#define INFO 0
-#define MESSAGE 1
-#define ERROR 2
-
-#include "exitcodes.h"
-
-class MessageHandler {
-    protected:
-	SSL_CTX* sslctx;
-	int InitializeSSL(const std::string&, const std::string&, int);
-	void DestroySSL();
-    public:
-	virtual void handleMessage(const std::string&, int) = 0;
-	void ShutdownSSL(SSL*);
-};
-
-#endif
+void MessageHandler::ShutdownSSL(SSL *ssl) {
+	SSL_shutdown(ssl);
+	SSL_free(ssl);
+}
